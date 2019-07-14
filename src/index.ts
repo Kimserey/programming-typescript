@@ -239,6 +239,12 @@ class MyClassExtend extends MyClassTypeValue {
 }
 const myClassExtended = new MyClassExtend();
 
+/**
+ * A function returning an anonymous class extending the class provided as argument,
+ * intersected with a debug functionality.
+ * @param Class Class to be extended with debug functionality.
+ * @returns     A new class extending the original class with debug functionality.
+ */
 function withDebug<C extends new (...args: any[]) => Debuggable>(Class: C) {
     return class extends Class {
         /**
