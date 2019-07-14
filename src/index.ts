@@ -414,3 +414,44 @@ function parseSomething(sth: string | number | null | undefined): string {
 
     return sth;
 }
+
+interface UserTextEvent {
+    type: "TextEvent";
+    value: string;
+    target: number;
+}
+
+interface UserMouseEvent {
+    type: "MouseEvent";
+    value: string;
+    target: [number, number];
+}
+
+type UserEvent = UserTextEvent | UserMouseEvent;
+
+function handle(event: UserEvent) {
+    switch (event.type) {
+        case "MouseEvent":
+            console.log(event.type, event.value, event.target);
+            break;
+        case "TextEvent":
+            console.log(event.type, event.value, event.target);
+            break;
+    }
+}
+
+function isBig(n: number) {
+    if (n >= 100) {
+        return true;
+    }
+
+    return false;
+}
+
+type KeyOfTest = keyof { name: string, test: number };
+
+function get<O, K extends keyof O>(o: O, k: K): O[K] {
+    return o[k];
+}
+
+const val = get({ value: "Hello world", test: 10 }, "test");
