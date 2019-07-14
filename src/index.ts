@@ -455,3 +455,22 @@ function get<O, K extends keyof O>(o: O, k: K): O[K] {
 }
 
 const val = get({ value: "Hello world", test: 10 }, "test");
+
+type Weekday = "Mon";
+type Day = Weekday | "Sat" | "Sun";
+
+const nextDay: { [K in Weekday]: Day } = {
+    Mon: "Mon"
+}
+
+type I = InstanceType<ClassConstructor<string>>;
+
+declare global {
+    interface Array<T> {
+        zip<U>(list: U[]): Array<[T, U]>;
+    }
+}
+
+Array.prototype.zip = function <T, U>(this: T[], list: U[]) {
+    return this.map((v, k) => [v, list[k]]);
+};
