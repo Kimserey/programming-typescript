@@ -212,3 +212,48 @@ function saySomething(...args: string[]) {
 }
 
 saySomething("Hello", "world");
+
+function test<T>(t: T) {
+    return class {
+        public x(v: T) {
+            return "";
+        }
+    };
+}
+
+interface Debuggable {
+    getDebugValue(): object;
+}
+
+function withDebug<C extends new (...args: any[]) => Debuggable>(Class: C) {
+    return class extends Class {
+        /**
+         * Returns debug value.
+         * @returns Debug value of the current object.
+         */
+        public debug() {
+            const name = Class.constructor.name;
+            const value = this.getDebugValue();
+            return name + "(" + JSON.stringify(value) + ")";
+        }
+    };
+}
+
+class User implements Debuggable {
+    constructor(
+        private id: number,
+        private firstName: string,
+        private lastName: string
+    ) {}
+
+    public getDebugValue() {
+        return {
+            id: this.id,
+            name: this.firstName + " " + this.lastName
+        };
+    }
+}
+
+const UserWithDebug = withDebug(User);
+const user = new UserWithDebug(1, "Kimserey", "Lam");
+console.log(user.debug());
