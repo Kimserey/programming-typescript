@@ -1,4 +1,5 @@
 import { myObj, MyObject } from "./my-object";
+import { brotliCompress } from "zlib";
 
 interface Reservation {
     from: Date;
@@ -239,13 +240,55 @@ class MyClassExtend extends MyClassTypeValue {
 }
 const myClassExtended = new MyClassExtend();
 
+type ClassConstructor<T> =
+    new (...args: any[]) => T;
+
+interface B {
+    something(): string;
+}
+
+interface A extends B {
+    do(): string;
+}
+
+type AA = {
+    do(): string
+} & B;
+
+const aaa: A = {
+    do: () => "",
+    something: () => ""
+};
+
+const aaaa: AA = {
+    do: () => "",
+    something: () => ""
+};
+
+type U = "A" | "B";
+type W = "C" | "D";
+type UW = U | W;
+const uw: UW = "D";
+
+class Something { }
+class Else extends Something { }
+
+// Call signature
+interface Xx {
+    (num: number): string;
+    (num: string, val: string): string;
+}
+
+const testxx: Xx =
+    (num: number | string, val?: string): string => "";
+
 /**
  * A function returning an anonymous class extending the class provided as argument,
  * intersected with a debug functionality.
  * @param Class Class to be extended with debug functionality.
  * @returns     A new class extending the original class with debug functionality.
  */
-function withDebug<C extends new (...args: any[]) => Debuggable>(Class: C) {
+function withDebug<C extends ClassConstructor<Debuggable>>(Class: C) {
     return class extends Class {
         /**
          * Returns debug value.
@@ -256,6 +299,14 @@ function withDebug<C extends new (...args: any[]) => Debuggable>(Class: C) {
             return JSON.stringify(value);
         }
     };
+}
+
+function yyy<C extends Debuggable>(value: C) {
+    return value.getDebugValue();
+}
+
+function zzz<C extends StringDabatase>(value: C) {
+    return value.get("");
 }
 
 class User implements Debuggable {
@@ -304,3 +355,62 @@ const Shoes = {
 const shoes = Shoes.create();
 console.log(shoes.purpose);
 
+interface ExistingUser {
+    id: number;
+    name: string;
+}
+
+interface NewUser {
+    name: string;
+}
+
+function deleteUser(user: { id?: number, name: string }) {
+    delete user.id;
+}
+
+let existingUser: ExistingUser = {
+    id: 123,
+    name: "Kim"
+};
+
+deleteUser(existingUser);
+console.log(existingUser.id);
+
+class Animal { }
+class Bird extends Animal {
+    public chirp() { console.log("e"); }
+}
+class Crow extends Bird {
+    public caw() { console.log("o"); }
+}
+
+function chirp(bird: Bird): Bird {
+    bird.chirp();
+    return bird;
+}
+
+chirp(new Bird());
+chirp(new Crow());
+
+function clone(fn: (b: Bird) => Bird): void { }
+
+function birdToBird(b: Bird): Bird { return b; }
+clone(birdToBird);
+
+function animalToCrow(a: Animal): Crow {
+    return new Crow();
+}
+clone(animalToCrow);
+
+// Flow-based type inference
+function parseSomething(sth: string | number | null | undefined): string {
+    if (sth == null) {
+        return "";
+    }
+
+    if (typeof sth === "number") {
+        return sth.toFixed();
+    }
+
+    return sth;
+}
