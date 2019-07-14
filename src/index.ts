@@ -1,3 +1,5 @@
+import { myObj, MyObject } from "./my-object";
+
 interface Reservation {
     from: Date;
     to?: Date;
@@ -87,4 +89,95 @@ type Y = string[];
 
 const x: X = ["a", "b"];
 const y: Y = ["a"];
-console.log(typeof(x) === typeof(y));
+console.log(typeof (x) === typeof (y));
+
+type Color = "Black" | "White";
+type File = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H";
+type Rank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+
+class Position {
+    constructor(
+        private file: File,
+        private rank: Rank
+    ) { }
+
+    public distanceFrom(position: Position) {
+        return {
+            file: Math.abs(position.file.charCodeAt(0) - this.file.charCodeAt(0)),
+            rank: Math.abs(position.rank - this.rank)
+        };
+    }
+}
+
+abstract class Piece {
+    protected position: Position;
+    constructor(
+        private readonly color: Color,
+        file: File,
+        rank: Rank
+    ) {
+        this.position = new Position(file, rank);
+    }
+
+    public moveTo(position: Position) {
+        this.position = position;
+    }
+
+    public abstract canMoveTo(position: Position): boolean;
+}
+
+class King extends Piece {
+    public canMoveTo(position: Position): boolean {
+        const distance = this.position.distanceFrom(position);
+        return distance.rank < 2 && distance.file < 2;
+    }
+}
+
+class Game {
+    private static makePieces() {
+        return [
+            new King("White", "E", 1),
+            new King("Black", "E", 8)
+        ];
+    }
+
+    private pieces = Game.makePieces();
+}
+
+interface State {
+    [key: string]: string;
+}
+
+class StringDabatase {
+    public static from(state: State) {
+        const db = new StringDabatase();
+        for (const key of Object.keys(state)) {
+            db.set(key, state[key]);
+        }
+        return db;
+    }
+
+    private state: State = {};
+
+    /**
+     * Returns the value stored at the provided key.
+     * @param key   Key index.
+     * @returns     Value if found, null if not found.
+     */
+    public get(key: string) {
+        return key in this.state ? this.state[key] : null;
+    }
+
+    /**
+     * Saves the value at the provided key.
+     * @param key       Key index.
+     * @param value     Value to store.
+     */
+    public set(key: string, value: string) {
+        this.state[key] = value;
+    }
+}
+
+const stringDb: StringDabatase = new StringDabatase();
+stringDb.set("", "hehe");
+stringDb.get("")

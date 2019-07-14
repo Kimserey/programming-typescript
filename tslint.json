@@ -5,11 +5,12 @@
     ],
     "jsRules": {},
     "rules": {
-        "semicolon": true,
+        "semicolon": [true, "always"],
         "trailing-comma": false,
         "no-console": false,
         "arrow-parens": false,
-        "interface-name": false
+        "interface-name": false,
+        "max-classes-per-file": false
     },
     "rulesDirectory": []
 }
