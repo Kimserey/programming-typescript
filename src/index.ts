@@ -302,5 +302,5 @@ const Shoes = {
 };
 
 const shoes = Shoes.create();
-console.log(shoes.purpose;
+console.log(shoes.purpose);
 
