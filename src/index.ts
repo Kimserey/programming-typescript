@@ -180,4 +180,35 @@ class StringDabatase {
 
 const stringDb: StringDabatase = new StringDabatase();
 stringDb.set("", "hehe");
-stringDb.get("")
+stringDb.get("");
+
+const xx = {
+    lastname: "Lam",
+    name: "Kimserey"
+};
+
+const yy = {
+    name: "hehe",
+    ...xx
+};
+
+const zz = [
+    "",
+    ...Object.keys(xx)
+];
+
+const xxx: [string, number, ...string[]] = [
+    "Test",
+    10,
+    "Test",
+    "Test",
+    "Test"
+];
+
+function saySomething(...args: string[]) {
+    for (const value of args) {
+        console.log(value);
+    }
+}
+
+saySomething("Hello", "world");
