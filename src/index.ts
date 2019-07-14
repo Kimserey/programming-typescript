@@ -225,6 +225,20 @@ interface Debuggable {
     getDebugValue(): object;
 }
 
+const MyClassTypeValue = class MyClass {
+    public doSomething() {
+        return "";
+    }
+};
+const myClassValue = new MyClassTypeValue();
+
+class MyClassExtend extends MyClassTypeValue {
+    public doSomethingElse() {
+        return "";
+    }
+}
+const myClassExtended = new MyClassExtend();
+
 function withDebug<C extends new (...args: any[]) => Debuggable>(Class: C) {
     return class extends Class {
         /**
@@ -232,9 +246,8 @@ function withDebug<C extends new (...args: any[]) => Debuggable>(Class: C) {
          * @returns Debug value of the current object.
          */
         public debug() {
-            const name = Class.constructor.name;
             const value = this.getDebugValue();
-            return name + "(" + JSON.stringify(value) + ")";
+            return JSON.stringify(value);
         }
     };
 }
@@ -257,3 +270,15 @@ class User implements Debuggable {
 const UserWithDebug = withDebug(User);
 const user = new UserWithDebug(1, "Kimserey", "Lam");
 console.log(user.debug());
+
+const Hello = withDebug(
+    class Test {
+        public getDebugValue() {
+            return {
+                something: "hehe"
+            };
+        }
+    }
+);
+const hello = new Hello();
+console.log(hello.debug());
