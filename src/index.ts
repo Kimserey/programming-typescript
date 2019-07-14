@@ -263,7 +263,7 @@ class User implements Debuggable {
         private id: number,
         private firstName: string,
         private lastName: string
-    ) {}
+    ) { }
 
     public getDebugValue() {
         return {
@@ -288,3 +288,19 @@ const Hello = withDebug(
 );
 const hello = new Hello();
 console.log(hello.debug());
+
+interface Shoe {
+    purpose: string;
+}
+
+const Shoes = {
+    create(): Shoe {
+        return {
+            purpose: "x"
+        };
+    }
+};
+
+const shoes = Shoes.create();
+console.log(shoes.purpose;
+
