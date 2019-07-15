@@ -476,15 +476,15 @@ Array.prototype.zip = function <T, U>(this: T[], list: U[]) {
 };
 
 interface Option<T> {
-    flatMap<U>(f: (value: T) => Option<U>): Option<U>;
+    flatMap<_>(f: (value: T) => Option<_>): Option<_>;
     getOrElse(value: T): T;
 }
 class Some<T> implements Option<T> {
     constructor(private value: T) { }
 
-    public flatMap<U>(f: (value: T) => None): None;
-    public flatMap<U>(f: (value: T) => Some<U>): Some<U>;
-    public flatMap<U>(f: (value: T) => Option<U>): Option<U> {
+    public flatMap<_>(f: (value: T) => None): None;
+    public flatMap<_>(f: (value: T) => Some<_>): Some<_>;
+    public flatMap<_>(f: (value: T) => Option<_>): Option<_> {
         return f(this.value);
     }
 
@@ -493,11 +493,11 @@ class Some<T> implements Option<T> {
     }
 }
 class None implements Option<never> {
-    public flatMap<U>(): Option<U> {
+    public flatMap<_>(): Option<_> {
         return this;
     }
 
-    public getOrElse<U>(value: U): U {
+    public getOrElse<_>(value: _): _ {
         return value;
     }
 }
@@ -517,5 +517,7 @@ function someBoolean(): boolean {
 }
 
 const res = Option(10)
-    .flatMap(x => new None())
-    .getOrElse(0);
+    .flatMap(_ => new Some(new Date()))
+    .flatMap(_ => new Some(_.getDate()))
+    .flatMap(_ => new Some(_.toFixed()))
+    .getOrElse();
