@@ -474,3 +474,48 @@ declare global {
 Array.prototype.zip = function <T, U>(this: T[], list: U[]) {
     return this.map((v, k) => [v, list[k]]);
 };
+
+interface Option<T> {
+    flatMap<U>(f: (value: T) => Option<U>): Option<U>;
+    getOrElse(value: T): T;
+}
+class Some<T> implements Option<T> {
+    constructor(private value: T) { }
+
+    public flatMap<U>(f: (value: T) => None): None;
+    public flatMap<U>(f: (value: T) => Some<U>): Some<U>;
+    public flatMap<U>(f: (value: T) => Option<U>): Option<U> {
+        return f(this.value);
+    }
+
+    public getOrElse(): T {
+        return this.value;
+    }
+}
+class None implements Option<never> {
+    public flatMap<U>(): Option<U> {
+        return this;
+    }
+
+    public getOrElse<U>(value: U): U {
+        return value;
+    }
+}
+
+function Option<T>(value: null | undefined): None;
+function Option<T>(value: T): Some<T>;
+function Option<T>(value: T): Option<T> {
+    if (value == null) {
+        return new None();
+    }
+
+    return new Some(value);
+}
+
+function someBoolean(): boolean {
+    return false;
+}
+
+const res = Option(10)
+    .flatMap(x => new None())
+    .getOrElse(0);
