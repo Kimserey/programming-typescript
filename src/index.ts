@@ -521,3 +521,34 @@ const res = Option(10)
     .flatMap(_ => new Some(_.getDate()))
     .flatMap(_ => new Some(_.toFixed()))
     .getOrElse();
+
+interface SomeInterface {
+    get(value: string): string;
+}
+
+class SomeClassImplementingSomeInterface implements SomeInterface {
+    public get(): string {
+        return "no value";
+    }
+}
+
+const si: SomeInterface = new SomeClassImplementingSomeInterface();
+console.log(si.get("some value"));
+
+const n: any = 19;
+console.log(n);
+
+interface XSomeInterface {
+    name: string;
+    lastname: string;
+    [key: number]: {
+        name: string
+    };
+}
+
+function myFunc<T extends keyof XSomeInterface>(val: T) {
+    // The type of val is  <extends number> | "name" | "lastname"
+    return val;
+}
+
+console.log(myFunc(15.5));
