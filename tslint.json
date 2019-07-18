@@ -11,7 +11,8 @@
         "arrow-parens": false,
         "interface-name": false,
         "max-classes-per-file": false,
-        "max-line-length": false
+        "max-line-length": false,
+        "object-literal-sort-keys": false
     },
     "rulesDirectory": []
 }
