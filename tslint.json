@@ -10,7 +10,8 @@
         "no-console": false,
         "arrow-parens": false,
         "interface-name": false,
-        "max-classes-per-file": false
+        "max-classes-per-file": false,
+        "max-line-length": false
     },
     "rulesDirectory": []
 }

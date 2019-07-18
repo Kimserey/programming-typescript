@@ -1,5 +1,5 @@
+import { validateSchema, ValidationResult } from "./ajv-pet-store";
 import { myObj, MyObject } from "./my-object";
-import { brotliCompress } from "zlib";
 
 interface Reservation {
     from: Date;
@@ -552,3 +552,19 @@ function myFunc<T extends keyof XSomeInterface>(val: T) {
 }
 
 console.log(myFunc(15.5));
+
+const schemaUrl =
+    "https://petstore.swagger.io/v2/swagger.json";
+
+const data = {
+    id: 1,
+    petId: 1,
+    quantity: "1",
+    shipDate: "2018-01-01T01:00:00.00Z",
+    status: "placed"
+};
+
+validateSchema(data, schemaUrl, oas => oas.definitions.Order)
+    .then((value: ValidationResult) => {
+        console.log(value);
+    });
