@@ -1,5 +1,5 @@
 import * as express from "express";
-import { NextFunction, Request, Response } from "express-serve-static-core";
+import { Request, Response } from "express-serve-static-core";
 
 const app = express();
 const port = process.env.PORT || 3000;
