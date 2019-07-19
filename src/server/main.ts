@@ -1,9 +1,17 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
+import {
+  createServer,
+  IncomingMessage,
+  ServerResponse
+} from "http";
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
+const port = process.env.PORT || 3000;
 
-bootstrap();
+const server = createServer((req: IncomingMessage, res: ServerResponse) => {
+  res.writeHead(200, { "Content-Type": "text.plain" });
+  res.end("Hello World!");
+});
+
+server.listen(port, () => {
+  console.log(`Server started on port ${port}.`);
+  console.log("press Ctrl-C to terminate....");
+});
