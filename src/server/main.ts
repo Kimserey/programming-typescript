@@ -1,15 +1,26 @@
-import * as e from "express";
+import * as express from "express";
+import { NextFunction, Request, Response } from "express-serve-static-core";
 
-const app = e();
+const app = express();
 const port = process.env.PORT || 3000;
 
-app.use((_: e.Request, res: e.Response) => {
+app.get("/", (req: Request, res: Response) => {
+  res.type("text/plain");
+  res.send("Meadowlark Travel");
+});
+
+app.get("/about", (req: Request, res: Response) => {
+  res.type("text/plain");
+  res.send("About Meadowlark Travel");
+});
+
+app.use((_: Request, res: Response) => {
   res.type("text/plain");
   res.status(404);
   res.send("Not Found");
 });
 
-app.use((err: any, req: e.Request, res: e.Response, next: e.NextFunction) => {
+app.use((err: any, req: Request, res: Response) => {
   console.error(err.message);
   res.type("text/plain");
   res.status(500);
