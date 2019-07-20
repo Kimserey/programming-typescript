@@ -9,9 +9,24 @@ router.get("/tshirts", async (req: Request, res: Response) => {
     try {
         const tshirts = await TShirt.find();
         res.json(tshirts);
-    } catch {
-        res.status(500);
-        res.send("Internal Server Error.");
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get("/tshirts/:tshirtId", async (req: Request, res: Response) => {
+    try {
+        const tshirt = await TShirt.findOne(req.params.tshirtId);
+
+        if (!!tshirt) {
+            res.json(tshirt);
+        } else {
+            res.sendStatus(404);
+        }
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
     }
 });
 
@@ -34,14 +49,14 @@ router.post("/tshirts", [
     }
 
     try {
-        const tshirt = new TShirt();
+        let tshirt = new TShirt();
         tshirt.description = req.body.description;
         tshirt.brand = req.body.brand;
         tshirt.price = req.body.price;
-        await tshirt.save();
+        tshirt = await tshirt.save();
+        res.json(tshirt);
     } catch (e) {
         console.error(e);
-        res.status(500);
-        res.send("Internal Server Error.");
+        res.sendStatus(500);
     }
 });

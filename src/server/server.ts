@@ -5,13 +5,7 @@ import { createConnection } from "typeorm";
 import { TShirt } from "./entity";
 import { store, user } from "./router";
 
-createConnection({
-  type: "sqlite",
-  database: "./data/data.db",
-  entities: [ TShirt ],
-  logging: true,
-  synchronize: true
-})
+createConnection()
   .then(() => {
     const server = express();
     const port = process.env.PORT || 3000;
