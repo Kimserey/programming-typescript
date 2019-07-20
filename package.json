@@ -2,9 +2,10 @@
   "name": "programming-typescript",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server/main.js",
+  "main": "dist/server/server.js",
   "scripts": {
-    "start:server": "ts-node src/server/main.ts"
+    "build:server": "tsc --build ./tsconfig.server.json",
+    "start:server": "ts-node src/server/server.ts"
   },
   "author": "",
   "license": "ISC",
