@@ -1,14 +1,13 @@
 import * as express from "express";
 import { Request, Response } from "express-serve-static-core";
-import * as store from "./store";
-import * as user from "./user";
+import { store, user } from "./routers";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app
-  .use("/store", store.router)
-  .use("/user", user.router);
+  .use("/store", store)
+  .use("/user", user);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(404);
