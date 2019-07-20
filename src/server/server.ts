@@ -1,20 +1,33 @@
 import * as express from "express";
 import { Request, Response } from "express-serve-static-core";
-import { store, user } from "./routers";
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+import { TShirt } from "./entity";
+import { store, user } from "./router";
 
-const app = express();
-const port = process.env.PORT || 3000;
+createConnection({
+  type: "sqlite",
+  database: "./data/data.db",
+  entities: [ TShirt ],
+  logging: true,
+  synchronize: true
+})
+  .then(() => {
+    const server = express();
+    const port = process.env.PORT || 3000;
 
-app
-  .use(express.json())
-  .use("/store", store)
-  .use("/user", user);
+    server
+      .use(express.json())
+      .use("/store", store)
+      .use("/user", user);
 
-app.get("/", (req: Request, res: Response) => {
-  res.status(404);
-});
+    server.get("/", (req: Request, res: Response) => {
+      res.status(404);
+    });
 
-app.listen(port, () => {
-  console.log(`Express started on http://localhost:${port}`);
-  console.log("Press CTRL+C to terminate.");
-});
+    server.listen(port, () => {
+      console.log(`Express started on http://localhost:${port}`);
+      console.log("Press CTRL+C to terminate.");
+    });
+  }
+  );

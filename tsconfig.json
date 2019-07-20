@@ -3,6 +3,7 @@
         "noImplicitReturns": true,
         "sourceMap": true,
         "strict": true,
+        "emitDecoratorMetadata": true,
         "experimentalDecorators": true
     },
     "include": [
