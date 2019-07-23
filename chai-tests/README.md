@@ -1,1 +1,0 @@
-## Repository used to test Chai functionalities
